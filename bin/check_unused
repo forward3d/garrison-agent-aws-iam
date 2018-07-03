@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require_relative '../environment'
+
+module Garrison
+  module Checks
+    @options[:threshold] = ENV['GARRISON_IAM_THRESHOLD']
+    check = CheckUnused.new(@options)
+    check.perform
+  end
+end

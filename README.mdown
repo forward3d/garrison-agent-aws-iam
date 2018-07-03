@@ -1,0 +1,50 @@
+Garrison Agent - AWS IAM
+--
+
+This is a part of the [Garrison](https://github.com/forward3d/garrison) security project. This agent mainly provides compliance alerts and other basic checks.
+
+### Checks Provided
+
+| Function Name | Description  |
+| ------------- | ------------- |
+| `check_mfa` | Alerts for IAM Users that have no MFA devices |
+| `check_unused` | Alerts for IAM Access Keys that have not been used in the last X days |
+
+### Installation & Example
+
+Docker Hub - https://hub.docker.com/r/forward3d/garrison-agent-aws-iam/
+
+    docker pull forward3d/garrison-agent-aws-guardduty
+    docker run --rm -e "GARRISON_URL=https://garrison.internal.acme.com" forward3d/garrison-agent-aws-iam check_mfa
+
+#### AWS Authentication
+
+As this requires access to the AWS API you will need this IAM policy as a minimum for it to operate correctly.
+
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Action": [
+                    "iam:GetAccessKeyLastUsed",
+                    "iam:ListUsers",
+                    "iam:ListMFADevices",
+                    "iam:ListAccessKeys"
+                ],
+                "Effect": "Allow",
+                "Resource": "*"
+            }
+        ]
+    }
+
+We recommend using EC2/ECS Task roles so that you don't need to send credentials into the container, however if you can't use those or want to send in specific Access Keys and Secret keys, please see the [AWS Documentation](https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/setup-config.html#aws-ruby-sdk-credentials-environment) as to how you do that.
+
+### Check Specific Configuration
+
+Some checks provided by this agent have extra configuration options.
+
+#### `check_unused`
+
+| Environmental Variable | Default |
+| ------------- | ------------- |
+| `GARRISON_IAM_THRESHOLD` | `90` |
