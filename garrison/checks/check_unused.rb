@@ -19,7 +19,7 @@ module Garrison
       end
 
       def perform
-        iam = Aws::IAM::Client.new
+        iam = Aws::IAM::Client.new(region: 'us-east-1')
         AwsHelper.list_iam_users(iam).each do |user|
           access_keys = iam.list_access_keys user_name: user.user_name
           active_keys = access_keys.access_key_metadata.select { |ak| ak.status == 'Active' }

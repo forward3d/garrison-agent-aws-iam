@@ -18,7 +18,7 @@ module Garrison
       end
 
       def perform
-        iam = Aws::IAM::Client.new
+        iam = Aws::IAM::Client.new(region: 'us-east-1')
         AwsHelper.list_iam_users(iam).each do |user|
           mfa_devices = iam.list_mfa_devices user_name: user.user_name
           next if mfa_devices.mfa_devices.count > 0
