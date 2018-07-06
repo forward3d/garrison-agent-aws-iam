@@ -7,7 +7,7 @@ This is a part of the [Garrison](https://github.com/forward3d/garrison) security
 
 | Function Name | Description  |
 | ------------- | ------------- |
-| `check_mfa` | Alerts for IAM Users that have no MFA devices |
+| `check_mfa` | Alerts for IAM Users that have no MFA devices and console access |
 | `check_unused` | Alerts for IAM Access Keys that have not been used in the last X days |
 
 ### Installation & Example
