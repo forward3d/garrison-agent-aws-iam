@@ -20,6 +20,10 @@ module Garrison
       def perform
         iam = Aws::IAM::Client.new(region: 'us-east-1')
         AwsHelper.list_iam_users(iam).each do |user|
+          # if a user doesn't have a login profile it throws an exception
+          profile = iam.get_login_profile user_name: user.user_name rescue false
+          next unless profile
+
           mfa_devices = iam.list_mfa_devices user_name: user.user_name
           next if mfa_devices.mfa_devices.count > 0
 
@@ -39,7 +43,6 @@ module Garrison
             key_values: []
           )
         end
-
       end
 
     end
