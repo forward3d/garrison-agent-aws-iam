@@ -6,7 +6,6 @@ module Garrison
   module Checks
     @options[:threshold] = ENV['GARRISON_IAM_THRESHOLD']
     check = CheckUnused.new(@options)
-    check.perform
-    Api::Alert.obsolete_previous_runs(check.source) if ENV["GARRISON_AUTO_OBSOLETE"]
+    check.run
   end
 end
